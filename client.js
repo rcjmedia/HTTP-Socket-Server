@@ -12,3 +12,5 @@ const client = net.createConnection(6969, "localhost", () => {
 client.on('data', function (receiveData) {
   process.stdout.write(receiveData);
 });
+console.log("merge conflict?")
+console.log("Sanity Check");

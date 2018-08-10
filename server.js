@@ -32,6 +32,6 @@ let server = net.createServer((socket) => {
   });
 });
 
-server.listen(6969, '0.0.0.0', ()=>{
+server.listen(8080, '0.0.0.0', ()=>{
   console.log(`opened server on`, server.address());
 });

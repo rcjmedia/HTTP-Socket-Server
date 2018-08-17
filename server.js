@@ -1,37 +1,33 @@
-
 const net = require('net');
-const users = [];
+const PORT = 8080;
+const { helium } = require('./helium.js');
 
-let server = net.createServer((socket) => {
+const server = net.createServer( client => {
+  client.setEncoding('utf8');
+  client.on('data', (data) => {
+    // console.log(data);
+    let req = data.toString().split('\n');
+    console.log(req);
+    let reqLine = req[0].split(" ");
+    let uri = reqLine[1];
+    console.log(uri); // outputs as home
 
-  socket.setEncoding('utf8');
-  // console.log(socket.remotePort);
-  server.getConnections(function(count){
-    console.log(`${socket.remotePort} connected. There are ${count} users chatting.`);
-  });
+    if (uri === '/helium') {
+      const date = new Date();
+      const status = "HTTP/1.1 200 OK";
+      const serverName = "coolServer";
+      const message = `${status}\nServer: ${serverName}\nDate: ${date} \nContent-Type: *\n\n${helium}`;
 
-  users.push(socket);
+      client.write(message);
+      client.end();
+      // console.log('you are home');
+    } else {
+      console.log('not home');
+    }
 
-  socket.on('data', function (data) {
-    process.stdout.write(`${socket.remotePort}: ${data}`);
-    users.forEach(function(eachUser){
-      eachUser.write(`${socket.remotePort}: ${data}`);
-    });
-  });
-
-  process.stdin.on('data', (cmd)=>{
-    users.forEach(function(eachUser){
-      eachUser.write(`[admin]: ${cmd}`);
-    });
-  });
-
-  socket.on('end', ()=>{
-    server.getConnections(function(count){
-      console.log(`${socket.remotePort} disconnected. There are ${count} users chatting.`);
-    });
   });
 });
 
-server.listen(8080, '0.0.0.0', ()=>{
-  console.log(`opened server on`, server.address());
-});
+server.listen(PORT, () => {
+  console.log('Welcome to the Matrix on port ', PORT);
+})

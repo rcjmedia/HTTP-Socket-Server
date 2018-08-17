@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab);
+let styles = `@import url(http://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab);
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -107,4 +107,8 @@ a{
 a:hover{
   color: #C6C5AC;
   border-bottom: 1px dashed #C6C5AC;
+}`;
+
+module.exports = {
+  styles: styles,
 }

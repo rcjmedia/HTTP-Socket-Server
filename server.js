@@ -1,6 +1,7 @@
 const net = require('net');
 const PORT = 8080;
 const { helium } = require('./helium.js');
+const { styles } = require('./styles.js');
 
 const server = net.createServer( client => {
   client.setEncoding('utf8');
@@ -21,8 +22,14 @@ const server = net.createServer( client => {
       client.write(message);
       client.end();
       // console.log('you are home');
-    } else {
-      console.log('not home');
+    } else if (uri === '/styles.js') {
+      const date = new Date();
+      const status = "HTTP/1.1 200 OK";
+      const serverName = "coolServer";
+      const message = `${status}\nServer: ${serverName}\nDate: ${date} \nContent-Type: text/css\n\n${styles}`;
+      client.write(message);
+      client.end();
+
     }
 
   });
